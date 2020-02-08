@@ -1,7 +1,18 @@
-suspend fun main() = coroutineScope {
-    launch {
-        delay(1000)
-        println("Kotlin Coroutines World!")
+import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+
+fun main() {
+    runBlocking {
+        launch {
+            val service = NetworkService(createGitHubService())
+            val res = service.loadContributorsSuspend("Veglad")
+            print(res)
+        }
     }
-    println("Hello")
+    GlobalScope.launch {
+        repeat(1000) {
+            delay(200)
+            print("Wait...")
+        }
+    }
 }
