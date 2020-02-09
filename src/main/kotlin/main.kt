@@ -3,16 +3,28 @@ import kotlinx.coroutines.GlobalScope
 
 fun main() {
     runBlocking {
-        launch {
-            val service = NetworkService(createGitHubService())
-            val res = service.loadContributorsSuspend("Veglad")
-            print(res)
+        val mainContext = coroutineContext
+
+        launch(Dispatchers.IO) {
+            val service = JsonPlaceholderFactory.makeRetrofitService()
+            printLine("Fetching posts")
+            val res = service.getPosts()
+
+            withContext(mainContext) {
+                printLine(res.body())
+            }
+        }
+
+        launch(Dispatchers.Default) {
+            repeat(1000) {
+                printLine("Wait...")
+                delay(500)
+            }
         }
     }
-    GlobalScope.launch {
-        repeat(1000) {
-            delay(200)
-            print("Wait...")
-        }
-    }
+}
+
+fun printLine(str: Any?) {
+    val threadDescription = "Msg from ${Thread.currentThread().name}: "
+    println("${threadDescription}${str}")
 }
