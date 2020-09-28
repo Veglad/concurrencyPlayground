@@ -1,5 +1,7 @@
+package coroutines
+
 import kotlinx.coroutines.*
-import kotlinx.coroutines.GlobalScope
+import printLine
 
 fun main() {
     runBlocking {
@@ -22,9 +24,4 @@ fun main() {
             }
         }
     }
-}
-
-fun printLine(str: Any?) {
-    val threadDescription = "Msg from ${Thread.currentThread().name}: "
-    println("${threadDescription}${str}")
 }

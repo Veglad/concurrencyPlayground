@@ -1,3 +1,5 @@
+package coroutines
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import retrofit2.Response

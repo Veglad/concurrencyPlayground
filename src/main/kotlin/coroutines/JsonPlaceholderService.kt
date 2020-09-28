@@ -1,3 +1,5 @@
+package coroutines
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import retrofit2.Response
 import retrofit2.Retrofit
