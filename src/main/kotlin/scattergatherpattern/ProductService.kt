@@ -11,7 +11,7 @@ class ProductService {
         val products = Collections.synchronizedList(mutableListOf<String>())
 
         val amazonProductsTask = CompletableFuture.runAsync(RetrieveProductTask("Amazon", products))
-        val appleProductsTask = CompletableFuture.runAsync(RetrieveProductTask("Apple", products))
+        val appleProductsTask = CompletableFuture.runAsync(RetrieveProductTask("Apple", products, true))
         val googleProductsTask = CompletableFuture.runAsync(RetrieveProductTask("Google", products))
 
         val allTasks = CompletableFuture.allOf(amazonProductsTask, appleProductsTask, googleProductsTask)
@@ -23,8 +23,12 @@ class ProductService {
     }
 }
 
-class RetrieveProductTask(val productType: String, val products: MutableList<String>): Runnable {
+class RetrieveProductTask(val productType: String, val products: MutableList<String>, val exception: Boolean = false): Runnable {
     override fun run() {
+        println("fetching task")
+        if (exception) {
+            throw Error("Error")
+        }
         val fetchTime = Random.nextLong(1000, 4000)
         printLine("Running [$productType] fetcher. Expected retrieving time - $fetchTime ms")
         Thread.sleep(fetchTime)
